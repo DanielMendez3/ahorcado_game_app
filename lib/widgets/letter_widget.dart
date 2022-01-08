@@ -14,9 +14,7 @@ class LetterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final _gameProvider = Provider.of<GameProvider>(context);
     final countLetters = _gameProvider.word.length;
-    print(MediaQuery.of(context).size.width);
     final size = MediaQuery.of(context).size.width * 0.65 / countLetters;
-    print(size);
     return Container(
       height: 55,
       width: size,

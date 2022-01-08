@@ -1,6 +1,7 @@
 import 'package:ahorcado_game_app/providers/game_provider.dart';
 import 'package:ahorcado_game_app/utils/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -60,13 +61,70 @@ class KeyBoardWidget extends StatelessWidget {
                 onPressed: _gameProvider.selectedChars.contains(e)
                     ? null
                     : () {
+                        print(_gameProvider.verificar);
                         _gameProvider.selectedChar(e);
-                        print(_gameProvider.selectedChars);
                         if (!_gameProvider.word.split('').contains(e)) {
                           _gameProvider.tries++;
+                        } else {
+                          _gameProvider.verificar![e] = true;
                         }
+
+                        //Validamos si se completó la palabra
+                        int contador = 0;
+                        _gameProvider.verificar!.forEach((key, encontrada) {
+                          if (!encontrada) {
+                            contador++;
+                          }
+                        });
+
+                        if (contador == 0) {
+                          showDialog(context, 'assets/you_win.png');
+                          _gameProvider.word = 'GANADOR';
+                        }
+
+                        if (_gameProvider.tries >= 6) {
+                          SystemSound.play(SystemSoundType.click);
+                          showDialog(context, 'assets/you_lose.png');
+                          _gameProvider.word = 'CAZADOR';
+                        }
+
                         //Logica de juego
                       }))
             .toList());
   }
+}
+
+void showDialog(BuildContext context, String path) {
+  showGeneralDialog(
+    barrierLabel: "Barrier",
+    barrierDismissible: true,
+    barrierColor: Colors.black.withOpacity(0.7),
+    transitionDuration: Duration(milliseconds: 400),
+    context: context,
+    pageBuilder: (_, __, ___) {
+      return Align(
+        alignment: Alignment.center,
+        child: Container(
+          height: 300,
+          child: SizedBox.expand(child: dialogContent(path)),
+          margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(40),
+          ),
+        ),
+      );
+    },
+    transitionBuilder: (_, anim, __, child) {
+      return SlideTransition(
+        //opacity: anim,
+        position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim),
+        child: child,
+      );
+    },
+  );
+}
+
+Widget dialogContent(String path) {
+  return Image.asset(path, width: 200, height: 200);
 }

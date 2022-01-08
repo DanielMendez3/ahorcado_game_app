@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
         shadowColor: AppColor.primaryColor,
         backgroundColor: AppColor.primaryColor,
         title: Text(
-          'AHORCADO GAME',
+          'HANGMAN GAME',
           style: GoogleFonts.goldman(textStyle: headline4),
         ),
         centerTitle: true,
