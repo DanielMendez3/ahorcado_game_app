@@ -43,6 +43,7 @@ class KeyBoardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final _gameProvider = Provider.of<GameProvider>(context);
     final _gameService = Provider.of<GameService>(context);
+
     return GridView.count(
         crossAxisCount: 6,
         mainAxisSpacing: 8.0,
@@ -98,6 +99,9 @@ class KeyBoardWidget extends StatelessWidget {
 }
 
 void showDialog(BuildContext context, String path) {
+  final gameProvider = Provider.of<GameProvider>(context, listen: false);
+  final TextStyle headline5 = Theme.of(context).textTheme.headline5!;
+  String word = gameProvider.word;
   showGeneralDialog(
     barrierLabel: "Barrier",
     barrierDismissible: true,
@@ -107,14 +111,29 @@ void showDialog(BuildContext context, String path) {
     pageBuilder: (_, __, ___) {
       return Align(
         alignment: Alignment.center,
-        child: Container(
-          height: 300,
-          child: SizedBox.expand(child: dialogContent(path)),
-          margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(40),
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'LA RESPUESTA ERA:',
+              style: GoogleFonts.goldman(
+                  textStyle: headline5, color: Colors.white, fontSize: 25),
+            ),
+            Text(
+              word,
+              style: GoogleFonts.goldman(
+                  textStyle: headline5, color: Colors.white, fontSize: 25),
+            ),
+            Container(
+              height: 300,
+              child: SizedBox.expand(child: dialogContent(path)),
+              margin: EdgeInsets.only(bottom: 50, left: 12, right: 12),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(40),
+              ),
+            ),
+          ],
         ),
       );
     },
