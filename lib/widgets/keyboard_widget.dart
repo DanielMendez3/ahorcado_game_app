@@ -1,4 +1,5 @@
 import 'package:ahorcado_game_app/providers/game_provider.dart';
+import 'package:ahorcado_game_app/services/game_service.dart';
 import 'package:ahorcado_game_app/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,6 +42,7 @@ class KeyBoardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _gameProvider = Provider.of<GameProvider>(context);
+    final _gameService = Provider.of<GameService>(context);
     return GridView.count(
         crossAxisCount: 6,
         mainAxisSpacing: 8.0,
@@ -60,8 +62,7 @@ class KeyBoardWidget extends StatelessWidget {
                     : AppColor.secundaryColor,
                 onPressed: _gameProvider.selectedChars.contains(e)
                     ? null
-                    : () {
-                        print(_gameProvider.verificar);
+                    : () async {
                         _gameProvider.selectedChar(e);
                         if (!_gameProvider.word.split('').contains(e)) {
                           _gameProvider.tries++;
@@ -79,13 +80,15 @@ class KeyBoardWidget extends StatelessWidget {
 
                         if (contador == 0) {
                           showDialog(context, 'assets/you_win.png');
-                          _gameProvider.word = 'GANADOR';
+                          final word = await _gameService.getWord();
+                          _gameProvider.word = word.toUpperCase();
                         }
 
                         if (_gameProvider.tries >= 6) {
                           SystemSound.play(SystemSoundType.click);
                           showDialog(context, 'assets/you_lose.png');
-                          _gameProvider.word = 'CAZADOR';
+                          final word = await _gameService.getWord();
+                          _gameProvider.word = word.toUpperCase();
                         }
 
                         //Logica de juego

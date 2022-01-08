@@ -30,6 +30,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^5.0.0
   google_fonts: ^2.2.0
+  http: ^0.13.3
+  jwt_decoder: ^2.0.1
+  url_launcher: ^6.0.6
+  animate_do: ^2.0.0
 
 dev_dependencies:
   flutter_test:

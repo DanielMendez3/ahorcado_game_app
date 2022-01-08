@@ -22,7 +22,8 @@ class GameProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  GameProvider() {
+  GameProvider(String word) {
+    _word = word;
     verificar = new Map();
     _word.split('').forEach((e) => verificar![e] = false);
     _selectedChars = [];

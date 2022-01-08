@@ -1,8 +1,6 @@
-import 'package:ahorcado_game_app/providers/game_provider.dart';
 import 'package:ahorcado_game_app/utils/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class LetterWidget extends StatelessWidget {
   final String character;
@@ -12,12 +10,9 @@ class LetterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _gameProvider = Provider.of<GameProvider>(context);
-    final countLetters = _gameProvider.word.length;
-    final size = MediaQuery.of(context).size.width * 0.65 / countLetters;
     return Container(
       height: 55,
-      width: size,
+      width: 45,
       padding: EdgeInsets.all(12.0),
       decoration: BoxDecoration(
           color: AppColor.primaryColorDark,
